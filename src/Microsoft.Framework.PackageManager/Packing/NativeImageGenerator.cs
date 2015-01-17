@@ -126,7 +126,7 @@ namespace Microsoft.Framework.PackageManager.Packing
                 if (VersionUtility.IsDesktop(frameworkName))
                 {
                     options.Reports.Information.WriteLine(
-                        "Native image generation is only supported for KLR Core flavors.".Yellow());
+                        "Native image generation is only supported for Dotnet Core flavors.".Yellow());
                     return null;
                 }
             }

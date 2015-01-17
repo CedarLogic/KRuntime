@@ -99,20 +99,20 @@ namespace Microsoft.Framework.PackageManager.Packing
             }
 
             const string template = @"
-@""{0}klr.exe"" --appbase ""%~dp0{1}"" Microsoft.Framework.ApplicationHost {2} %*
+@""{0}dotnet.exe"" --appbase ""%~dp0{1}"" Microsoft.Framework.ApplicationHost {2} %*
 ";
 
             foreach (var commandName in _project.Commands.Keys)
             {
-                var klrFolder = string.Empty;
+                var dotnetFolder = string.Empty;
                 if (Runtimes.Any())
                 {
-                    klrFolder = string.Format(@"%~dp0{0}\packages\{1}\bin\", AppRootName, Runtimes.First().Name);
+                    dotnetFolder = string.Format(@"%~dp0{0}\packages\{1}\bin\", AppRootName, Runtimes.First().Name);
                 }
 
                 File.WriteAllText(
                     Path.Combine(OutputPath, commandName + ".cmd"),
-                    string.Format(template, klrFolder, relativeAppBase, commandName));
+                    string.Format(template, dotnetFolder, relativeAppBase, commandName));
             }
         }
 
@@ -141,20 +141,20 @@ DIR=""$( cd -P ""$( dirname ""$SOURCE"" )"" && pwd )""
 
 export SET KRE_APPBASE=""$DIR/{0}""
 
-exec ""{1}klr"" Microsoft.Framework.ApplicationHost {2} ""$@""";
+exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""";
 
             foreach (var commandName in _project.Commands.Keys)
             {
-                var klrFolder = string.Empty;
+                var dotnetFolder = string.Empty;
                 if (Runtimes.Any())
                 {
-                    klrFolder = string.Format(@"$DIR/{0}/packages/{1}/bin/",
+                    dotnetFolder = string.Format(@"$DIR/{0}/packages/{1}/bin/",
                         AppRootName, Runtimes.First().Name);
                 }
 
                 var scriptPath = Path.Combine(OutputPath, commandName);
                 File.WriteAllText(scriptPath,
-                    string.Format(template, relativeAppBase, klrFolder, commandName).Replace("\r\n", "\n"));
+                    string.Format(template, relativeAppBase, dotnetFolder, commandName).Replace("\r\n", "\n"));
                 if (PlatformHelper.IsMono)
                 {
                     MarkExecutable(scriptPath);

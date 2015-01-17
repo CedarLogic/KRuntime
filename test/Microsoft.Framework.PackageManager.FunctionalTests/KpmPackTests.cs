@@ -15,7 +15,7 @@ namespace Microsoft.Framework.PackageManager
         private readonly string _outputDirName = "PackOutput";
 
         private static readonly string BatchFileTemplate = @"
-@""{0}klr.exe"" --appbase ""%~dp0approot\src\{1}"" Microsoft.Framework.ApplicationHost {2} %*
+@""{0}dotnet.exe"" --appbase ""%~dp0approot\src\{1}"" Microsoft.Framework.ApplicationHost {2} %*
 ";
 
         private static readonly string BashScriptTemplate = @"#!/bin/bash
@@ -30,7 +30,7 @@ DIR=""$( cd -P ""$( dirname ""$SOURCE"" )"" && pwd )""
 
 export SET KRE_APPBASE=""$DIR/approot/src/{0}""
 
-exec ""{1}klr"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n", "\n");
+exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n", "\n");
 
         public static IEnumerable<object[]> KreHomeDirs
         {
