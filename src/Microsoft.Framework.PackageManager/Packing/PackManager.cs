@@ -129,7 +129,7 @@ namespace Microsoft.Framework.PackageManager.Packing
                         if (!PlatformHelper.IsMono)
                         {
                             var programFilesPath = Environment.GetEnvironmentVariable("ProgramFiles");
-                            kreHome = Path.Combine(programFilesPath, "KRE") + ";" + kreHome;
+                            kreHome = Path.Combine(programFilesPath, "dotnet") + ";" + kreHome;
                         }
 #endif
                     }

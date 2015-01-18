@@ -37,7 +37,7 @@ namespace Microsoft.Framework.Runtime.Servicing
 
                     kreServicing = Path.Combine(
                         servicingRoot,
-                        "KRE",
+                        "dotnet",
                         "Servicing");
                 }
 
