@@ -234,7 +234,6 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
   
 #test-package
     var helloWorld = '${Path.Combine(SAMPLES_DIR, "HelloWorld")}'
-    var kcmd = '${Path.Combine(TEST_RESULTS, "KRE", "tools", "k.cmd")}'
     var aspnetCore50Tools = '${Path.Combine(TEST_RESULTS, "KRE", "tools", "aspnetcore50")}'
 
     var nupkgPaths = '${new string[] 
@@ -272,13 +271,13 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
                 var krePath = Path.Combine(TEST_RESULTS, "KRE", kreName);
                 Environment.SetEnvironmentVariable("DOTNET_APPBASE", helloWorld);
 
-                var kPath = Path.Combine(krePath, "bin", "k");
+                var dotnetPath = Path.Combine(krePath, "bin", "dotnet");
                 var kpmPath = Path.Combine(krePath, "bin", "kpm");
 
                 Log.Info("kreName = " + kreName);
                 Log.Info("DOTNET_APPBASE = " + helloWorld);
 
-                Exec("cmd", "/C " + kPath + " run");
+                Exec("cmd", "/C " + dotnetPath + " " + helloWorld + " run");
 
                 var commands = new [] { "build" };
                 foreach(var cmd in commands)
