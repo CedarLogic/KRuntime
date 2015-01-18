@@ -23,11 +23,11 @@ var TEST_RESULTS = '${Path.Combine(ROOT, "artifacts", "TestResults")}'
 var SAMPLES_DIR = '${Path.Combine(ROOT, "samples")}'
 var FULL_VERSION = '${PRODUCT_VERSION + "-" + E("K_BUILD_VERSION")}'
 var CORECLR_TARGET_PATH = '${Path.Combine(BUILD_DIR2, "CoreCLR")}'
-var DOTNET_MONO_BIN='${Path.Combine(BUILD_DIR2, "DOTNET-Mono", "bin")}'
-var DOTNET_CLR_x86_BIN='${Path.Combine(BUILD_DIR2, "DOTNET-CLR-x86", "bin")}'
-var DOTNET_CLR_amd64_BIN='${Path.Combine(BUILD_DIR2, "DOTNET-CLR-amd64", "bin")}'
-var DOTNET_CORECLR_x86_BIN='${Path.Combine(BUILD_DIR2, "DOTNET-CoreCLR-x86", "bin")}'
-var DOTNET_CORECLR_amd64_BIN='${Path.Combine(BUILD_DIR2, "DOTNET-CoreCLR-amd64", "bin")}'
+var DOTNET_MONO_BIN='${Path.Combine(BUILD_DIR2, "dotnet-mono", "bin")}'
+var DOTNET_CLR_x86_BIN='${Path.Combine(BUILD_DIR2, "dotnet-clr-x86", "bin")}'
+var DOTNET_CLR_amd64_BIN='${Path.Combine(BUILD_DIR2, "dotnet-clr-amd64", "bin")}'
+var DOTNET_CORECLR_x86_BIN='${Path.Combine(BUILD_DIR2, "dotnet-coreclr-x86", "bin")}'
+var DOTNET_CORECLR_amd64_BIN='${Path.Combine(BUILD_DIR2, "dotnet-coreclr-amd64", "bin")}'
 var DOTNET_CLR_TARGETS = '${new [] {DOTNET_MONO_BIN, DOTNET_CLR_x86_BIN, DOTNET_CLR_amd64_BIN}}'
 var DOTNET_CORECLR_TARGETS = '${new [] {DOTNET_CORECLR_x86_BIN, DOTNET_CORECLR_amd64_BIN}}'
 var ALL_TARGETS = '${DOTNET_CLR_TARGETS.Concat(DOTNET_CORECLR_TARGETS)}'
@@ -238,10 +238,10 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
 
     var nupkgPaths = '${new string[] 
     {
-        Files.Include(Path.Combine(BUILD_DIR2, "DOTNET-CLR-x86.*.nupkg")).Single(),
-        Files.Include(Path.Combine(BUILD_DIR2, "DOTNET-CLR-amd64.*.nupkg")).Single(),
-        Files.Include(Path.Combine(BUILD_DIR2, "DOTNET-CoreCLR-x86.*.nupkg")).Single(),
-        Files.Include(Path.Combine(BUILD_DIR2, "DOTNET-CoreCLR-amd64.*.nupkg")).Single(),
+        Files.Include(Path.Combine(BUILD_DIR2, "dotnet-clr-x86.*.nupkg")).Single(),
+        Files.Include(Path.Combine(BUILD_DIR2, "dotnet-clr-amd64.*.nupkg")).Single(),
+        Files.Include(Path.Combine(BUILD_DIR2, "dotnet-coreclr-x86.*.nupkg")).Single(),
+        Files.Include(Path.Combine(BUILD_DIR2, "dotnet-coreclr-amd64.*.nupkg")).Single(),
     }}'
 
     for each='var nupkgPath in nupkgPaths' 
@@ -320,7 +320,7 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
     @{
         // We need to re-run the build using the current output
 
-        var nupkgPath = Files.Include(Path.Combine(BUILD_DIR2, "DOTNET-CLR-x86.*.nupkg")).Single();
+        var nupkgPath = Files.Include(Path.Combine(BUILD_DIR2, "dotnet-clr-x86.*.nupkg")).Single();
         Log.Info("Unpacking " + nupkgPath);
         if (Directory.Exists(Path.Combine(PACKAGES_DIR, "DOTNET"))) {
             Directory.Delete(Path.Combine(PACKAGES_DIR, "DOTNET"), recursive:true);
@@ -364,7 +364,7 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
     var x86Target="x86"
     var x64Target="amd64"
 
-    -// DOTNET-mono45-x86
+    -// dotnet-mono45-x86
     copy sourceDir='${SCRIPTS_DIR}' include='*.sh' outputDir='${DOTNET_MONO_BIN}' overwrite='${true}'
     copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet.mono.managed")}' outputDir='${DOTNET_MONO_BIN}' include='*.dll' overwrite='${true}'
 
@@ -387,24 +387,24 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
     }
 
     test if='!IsMono'
-        -// DOTNET-CLR-x86
+        -// dotnet-clr-x86
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet", "bin", "Win32", Configuration2, "aspnet50")}' outputDir='${DOTNET_CLR_x86_BIN}' include='*.exe' overwrite='${true}'
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet.net45", "bin", "Win32", Configuration2)}' outputDir='${DOTNET_CLR_x86_BIN}' include='*.dll' overwrite='${true}'
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet.net45", "bin", "Win32", Configuration2)}' outputDir='${DOTNET_CLR_x86_BIN}' include='*.pdb' overwrite='${true}'
         copy sourceDir='${Path.Combine(ROOT, "src", "dotnet.net45.managed")}' outputDir='${DOTNET_CLR_x86_BIN}' include='*.config' overwrite='${true}'
 
-        -// DOTNET-CLR-amd64
+        -// dotnet-clr-amd64
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet", "bin", "x64", Configuration2, "aspnet50")}' outputDir='${DOTNET_CLR_amd64_BIN}' include='*.exe' overwrite='${true}'
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet.net45", "bin", "x64", Configuration2)}' outputDir='${DOTNET_CLR_amd64_BIN}' include='*.dll' overwrite='${true}'
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet.net45", "bin", "x64", Configuration2)}' outputDir='${DOTNET_CLR_amd64_BIN}' include='*.pdb' overwrite='${true}'
         copy sourceDir='${Path.Combine(ROOT, "src", "dotnet.net45.managed")}' outputDir='${DOTNET_CLR_amd64_BIN}' include='*.config' overwrite='${true}'
 
-        -// DOTNET-CoreCLR-x86
+        -// dotnet-coreclr-x86
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet", "bin", "Win32", Configuration2, "aspnetcore50")}' outputDir='${DOTNET_CORECLR_x86_BIN}' include='*.exe' overwrite='${true}'
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet.core45", "bin", "Win32", Configuration2)}' outputDir='${DOTNET_CORECLR_x86_BIN}' include='*.dll' overwrite='${true}'
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet.core45", "bin", "Win32", Configuration2)}' outputDir='${DOTNET_CORECLR_x86_BIN}' include='*.pdb' overwrite='${true}'
 
-        -// DOTNET-CoreCLR-amd64
+        -// dotnet-coreclr-amd64
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet", "bin", "x64", Configuration2, "aspnetcore50")}' outputDir='${DOTNET_CORECLR_amd64_BIN}' include='*.exe' overwrite='${true}'
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet.core45", "bin", "x64", Configuration2)}' outputDir='${DOTNET_CORECLR_amd64_BIN}' include='*.dll' overwrite='${true}'
         copy sourceDir='${Path.Combine(BUILD_DIR2, "dotnet.core45", "bin", "x64", Configuration2)}' outputDir='${DOTNET_CORECLR_amd64_BIN}' include='*.pdb' overwrite='${true}'

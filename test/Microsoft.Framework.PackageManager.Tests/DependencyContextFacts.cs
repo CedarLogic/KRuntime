@@ -7,15 +7,15 @@ namespace Microsoft.Framework.PackageManager.Packing.Tests
     public class DependencyContextFacts
     {
         [Theory]
-        [InlineData("DOTNET-CLR-x86.1.0.0", "Asp.Net")]
-        [InlineData("DOTNET-CLR-amd64.1.0.0", "Asp.Net")]
-        [InlineData("DOTNET-CoreCLR-x86.1.0.0", "Asp.NetCore")]
-        [InlineData("DOTNET-CoreCLR-amd64.1.0.0", "Asp.NetCore")]
-        [InlineData("DOTNET-Mono.1.0.0", "Asp.Net")]  // Absence of architecture component is allowed for Mono KRE
-        [InlineData("DOTNET-Mono-x86.1.0.0", "Asp.Net")]
-        [InlineData("DOTNET-CLR.1.0.0", null)]
-        [InlineData("DOTNET-CoreCLR-x86", null)]
-        [InlineData("DOTNET-Mono", null)]
+        [InlineData("dotnet-clr-x86.1.0.0", "Asp.Net")]
+        [InlineData("dotnet-clr-amd64.1.0.0", "Asp.Net")]
+        [InlineData("dotnet-coreclr-x86.1.0.0", "Asp.NetCore")]
+        [InlineData("dotnet-coreclr-amd64.1.0.0", "Asp.NetCore")]
+        [InlineData("dotnet-mono.1.0.0", "Asp.Net")]  // Absence of architecture component is allowed for Mono KRE
+        [InlineData("dotnet-mono-x86.1.0.0", "Asp.Net")]
+        [InlineData("dotnet-clr.1.0.0", null)]
+        [InlineData("dotnet-coreclr-x86", null)]
+        [InlineData("dotnet-mono", null)]
         [InlineData("DOTNET", null)]
         public void GetCorrectFrameworkNameForKREs(string runtimeName, string frameworkIdentifier)
         {

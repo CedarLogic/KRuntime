@@ -409,7 +409,7 @@ namespace Microsoft.Framework.PackageManager.Packing
         }
 
         // Expected runtime name format: DOTNET-{FLAVOR}-{ARCHITECTURE}.{VERSION}
-        // Sample input: DOTNET-CoreCLR-x86.1.0.0.0
+        // Sample input: dotnet-coreclr-x86.1.0.0.0
         // Sample output: CoreCLR
         private static string GetRuntimeFlavor(PackRuntime runtime)
         {
@@ -424,7 +424,7 @@ namespace Microsoft.Framework.PackageManager.Packing
         }
 
         // Expected runtime name format: DOTNET-{FLAVOR}-{ARCHITECTURE}.{VERSION}
-        // Sample input: DOTNET-CoreCLR-x86.1.0.0.0
+        // Sample input: dotnet-coreclr-x86.1.0.0.0
         // Sample output: 1.0.0.0
         private static string GetRuntimeVersion(PackRuntime runtime)
         {
