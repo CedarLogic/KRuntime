@@ -935,6 +935,8 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
                     .WithFileContents(kreName + ".nupkg.sha512", kreNupkgSHA)
                     .RemoveFile("[Content_Types].xml")
                     .RemoveFile(Path.Combine("_rels", ".rels"))
+                    .RemoveFile(Path.Combine("bin", "lib", "Microsoft.Framework.PackageManager",
+                        "bin", "profile", "startup.prof"))
                     .RemoveSubDir("package");
 
                 var batchFileBinPath = string.Format(@"%~dp0approot\packages\{0}\bin\", kreName);
