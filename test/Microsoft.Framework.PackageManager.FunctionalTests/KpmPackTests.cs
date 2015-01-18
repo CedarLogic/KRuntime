@@ -28,7 +28,7 @@ while [ -h ""$SOURCE"" ]; do # resolve $SOURCE until the file is no longer a sym
 done
 DIR=""$( cd -P ""$( dirname ""$SOURCE"" )"" && pwd )""
 
-export SET KRE_APPBASE=""$DIR/approot/src/{0}""
+export SET DOTNET_APPBASE=""$DIR/approot/src/{0}""
 
 exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n", "\n");
 
@@ -96,7 +96,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -189,7 +189,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -262,7 +262,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -351,7 +351,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -448,7 +448,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -545,7 +545,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -612,7 +612,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -672,7 +672,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -756,7 +756,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -833,7 +833,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(
@@ -894,10 +894,10 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
       }
     },
     'packages': {
-      'KRE_PACKAGE_NAME': {}
+      'DOTNET_PACKAGE_NAME': {}
     }
   }
-}".Replace("PROJECT_NAME", _projectName).Replace("KRE_PACKAGE_NAME", kreName);
+}".Replace("PROJECT_NAME", _projectName).Replace("DOTNET_PACKAGE_NAME", kreName);
 
             using (var testEnv = new KpmTestEnvironment(kreHomeDir, _projectName, _outputDirName))
             {
@@ -916,9 +916,9 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
 
                 var environment = new Dictionary<string, string>()
                 {
-                    { "KRE_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") },
-                    { "KRE_HOME", kreHomeDir },
-                    { "KRE_TRACE", "1" }
+                    { "DOTNET_PACKAGES", Path.Combine(testEnv.ProjectPath, "packages") },
+                    { "DOTNET_HOME", kreHomeDir },
+                    { "DOTNET_TRACE", "1" }
                 };
 
                 var exitCode = KpmTestUtils.ExecKpm(

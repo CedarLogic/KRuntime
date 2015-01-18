@@ -33,7 +33,8 @@ namespace dotnet.hosting
         public static int Execute(string[] args)
         {
             // If we're a console host then print exceptions to stderr
-            var printExceptionsToStdError = Environment.GetEnvironmentVariable("KRE_CONSOLE_HOST") == "1";
+            // TODO: remove KRE_ env var
+            var printExceptionsToStdError = (Environment.GetEnvironmentVariable("DOTNET_CONSOLE_HOST") ?? Environment.GetEnvironmentVariable("KRE_CONSOLE_HOST")) == "1";
 
             try
             {
@@ -72,7 +73,8 @@ namespace dotnet.hosting
 
         public static Task<int> ExecuteAsync(string[] args)
         {
-            var enableTrace = Environment.GetEnvironmentVariable("KRE_TRACE") == "1";
+            // TODO: remove KRE_ env var
+            var enableTrace = (Environment.GetEnvironmentVariable("DOTNET_TRACE") ?? Environment.GetEnvironmentVariable("KRE_TRACE")) == "1";
 #if ASPNET50
             // TODO: Make this pluggable and not limited to the console logger
             if (enableTrace)
@@ -328,7 +330,8 @@ namespace dotnet.hosting
         {
             var searchPaths = new List<string>();
 
-            var defaultLibPath = Environment.GetEnvironmentVariable("KRE_DEFAULT_LIB");
+            // TODO: remove KRE_ env var
+            var defaultLibPath = Environment.GetEnvironmentVariable("DOTNET_DEFAULT_LIB") ?? Environment.GetEnvironmentVariable("KRE_DEFAULT_LIB");
 
             if (!string.IsNullOrEmpty(defaultLibPath))
             {

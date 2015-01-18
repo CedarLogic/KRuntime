@@ -117,7 +117,8 @@ namespace Microsoft.Framework.PackageManager.Packing
                 {
                     runtimeProbePaths = new List<string>();
                     runtimeProbePaths.Add(runtime);
-                    var kreHome = Environment.GetEnvironmentVariable("KRE_HOME");
+                    // TODO: remove KRE_ env var
+                    var kreHome = Environment.GetEnvironmentVariable("DOTNET_HOME") ?? Environment.GetEnvironmentVariable("KRE_HOME");
                     if (string.IsNullOrEmpty(kreHome))
                     {
 #if ASPNETCORE50

@@ -139,7 +139,7 @@ while [ -h ""$SOURCE"" ]; do # resolve $SOURCE until the file is no longer a sym
 done
 DIR=""$( cd -P ""$( dirname ""$SOURCE"" )"" && pwd )""
 
-export SET KRE_APPBASE=""$DIR/{0}""
+export SET DOTNET_APPBASE=""$DIR/{0}""
 
 exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""";
 

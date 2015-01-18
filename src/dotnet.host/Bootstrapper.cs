@@ -46,7 +46,9 @@ namespace dotnet.host
             string applicationBaseDirectory;
             if (PlatformHelper.IsMono)
             {
-                applicationBaseDirectory = Environment.GetEnvironmentVariable("KRE_APPBASE");
+                // TODO: remove KRE_ env var
+                applicationBaseDirectory = Environment.GetEnvironmentVariable("DOTNET_APPBASE") ?? Environment.GetEnvironmentVariable("KRE_APPBASE");
+                
                 if (string.IsNullOrEmpty(applicationBaseDirectory))
                 {
                     applicationBaseDirectory = Directory.GetCurrentDirectory();
@@ -60,8 +62,10 @@ namespace dotnet.host
             string applicationBaseDirectory = AppContext.BaseDirectory;
 #endif
 
-            var framework = Environment.GetEnvironmentVariable("TARGET_FRAMEWORK") ?? Environment.GetEnvironmentVariable("KRE_FRAMEWORK");
-            var configuration = Environment.GetEnvironmentVariable("TARGET_CONFIGURATION") ?? Environment.GetEnvironmentVariable("KRE_CONFIGURATION") ?? "Debug";
+            // TODO: remove KRE_ env var
+            var framework = Environment.GetEnvironmentVariable("TARGET_FRAMEWORK") ?? Environment.GetEnvironmentVariable("DOTNET_FRAMEWORK") ?? Environment.GetEnvironmentVariable("KRE_FRAMEWORK");
+            // TODO: remove KRE_ env var
+            var configuration = Environment.GetEnvironmentVariable("TARGET_CONFIGURATION") ?? Environment.GetEnvironmentVariable("DOTNET_CONFIGURATION")  ?? Environment.GetEnvironmentVariable("KRE_CONFIGURATION") ?? "Debug";
 
             // TODO: Support the highest installed version
             var targetFramework = FrameworkNameUtility.ParseFrameworkName(framework ?? "aspnet50");
