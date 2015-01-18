@@ -137,7 +137,7 @@ HMODULE LoadCoreClr()
     bool fSuccess = true;
     TCHAR szKreTrace[1] = {};
     // TODO: remove KRE_ env var
-	DWORD dwRet = GetEnvironmentVariableW(L"DOTNET_TRACE", szKreTrace, 1);
+    DWORD dwRet = GetEnvironmentVariableW(L"DOTNET_TRACE", szKreTrace, 1);
     if (dwRet == 0)
     {
         dwRet = GetEnvironmentVariableW(L"KRE_TRACE", szKreTrace, 1);
