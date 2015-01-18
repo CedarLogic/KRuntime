@@ -20,7 +20,7 @@ namespace Microsoft.Framework.ApplicationHost
             IDictionary<string, string> environment = null,
             string workingDir = null)
         {
-            var kreRoot = Directory.EnumerateDirectories(Path.Combine(kreHomePath, "packages"), "KRE-*").First();
+            var kreRoot = Directory.EnumerateDirectories(Path.Combine(kreHomePath, "packages"), "DOTNET-*").First();
             string program, commandLine;
             if (PlatformHelper.IsMono)
             {

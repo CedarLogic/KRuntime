@@ -877,7 +877,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         public void GenerateBatchFilesAndBashScriptsWithPackedRuntime(DisposableDir kreHomeDir)
         {
             // Each KRE home only contains one KRE package, which is the one we are currently testing against
-            var kreRoot = Directory.EnumerateDirectories(Path.Combine(kreHomeDir, "packages"), "KRE-*").First();
+            var kreRoot = Directory.EnumerateDirectories(Path.Combine(kreHomeDir, "packages"), "DOTNET-*").First();
             var kreName = new DirectoryInfo(kreRoot).Name;
 
             var projectStructure = @"{

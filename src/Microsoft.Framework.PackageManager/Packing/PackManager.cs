@@ -191,7 +191,7 @@ namespace Microsoft.Framework.PackageManager.Packing
 
             if (!frameworkContexts.Any())
             {
-                var frameworkName = DependencyContext.GetFrameworkNameForRuntime("KRE-CLR-x86.*");
+                var frameworkName = DependencyContext.GetFrameworkNameForRuntime("DOTNET-CLR-x86.*");
                 frameworkContexts[frameworkName] = CreateDependencyContext(project, frameworkName);
             }
 
