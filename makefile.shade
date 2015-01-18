@@ -269,7 +269,6 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
             {
                 var kreName = Path.GetFileNameWithoutExtension(nupkgPath);
                 var krePath = Path.Combine(TEST_RESULTS, "DOTNET", kreName);
-                Environment.SetEnvironmentVariable("DOTNET_APPBASE", helloWorld);
 
                 var dotnetPath = Path.Combine(krePath, "bin", "dotnet");
                 var kpmPath = Path.Combine(krePath, "bin", "kpm");
@@ -277,7 +276,7 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
                 Log.Info("kreName = " + kreName);
                 Log.Info("DOTNET_APPBASE = " + helloWorld);
 
-                Exec("cmd", "/C " + dotnetPath + " " + helloWorld + " run");
+                Exec(dotnetPath, helloWorld + " run");
 
                 var commands = new [] { "build" };
                 foreach(var cmd in commands)
