@@ -60,7 +60,7 @@ namespace Microsoft.Framework.FunctionalTestUtils
             return Path.Combine(kRuntimeRoot, "artifacts", "build");
         }
 
-        public static DisposableDir GetKreHomeDir(string flavor, string architecture)
+        public static DisposableDir GetRuntimeHomeDir(string flavor, string architecture)
         {
             var buildArtifactDir = GetBuildArtifactsFolder();
             var kreNupkg = Directory.GetFiles(
@@ -75,12 +75,12 @@ namespace Microsoft.Framework.FunctionalTestUtils
             return kreHomePath;
         }
 
-        public static IEnumerable<DisposableDir> GetKreHomeDirs()
+        public static IEnumerable<DisposableDir> GetRuntimeHomeDirs()
         {
-            yield return GetKreHomeDir(flavor: "CLR", architecture: "amd64");
-            yield return GetKreHomeDir(flavor: "CLR", architecture: "x86");
-            yield return GetKreHomeDir(flavor: "CoreCLR", architecture: "amd64");
-            yield return GetKreHomeDir(flavor: "CoreCLR", architecture: "x86");
+            yield return GetRuntimeHomeDir(flavor: "CLR", architecture: "amd64");
+            yield return GetRuntimeHomeDir(flavor: "CLR", architecture: "x86");
+            yield return GetRuntimeHomeDir(flavor: "CoreCLR", architecture: "amd64");
+            yield return GetRuntimeHomeDir(flavor: "CoreCLR", architecture: "x86");
         }
 
         public static DisposableDir GetTempTestSolution(string name)
@@ -156,7 +156,7 @@ namespace Microsoft.Framework.FunctionalTestUtils
             return Path.Combine(programFilesPath, "MSBuild", "14.0", "Bin", "MSBuild.exe");
         }
 
-        public static string GetKreVersion()
+        public static string GetRuntimeVersion()
         {
             var kreNupkg = Directory.EnumerateFiles(GetBuildArtifactsFolder(), "DOTNET-*.nupkg").FirstOrDefault();
             var kreName = Path.GetFileNameWithoutExtension(kreNupkg);

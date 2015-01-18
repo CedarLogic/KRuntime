@@ -137,7 +137,7 @@ namespace Microsoft.Framework.PackageManager.Packing
 
             if (duplicates.Any())
             {
-                var message = "The following runtimes will result in output conflicts. Please provide distinct KRE flavor for each processor architecture:\n"
+                var message = "The following runtimes will result in output conflicts. Please provide distinct runtime flavor for each processor architecture:\n"
                     + string.Join("\n", duplicates.Select(
                         g => string.Format("Architecture: {0}\nRuntimes: {1}", g.Key, string.Join(", ", g))));
                 options.Reports.Information.WriteLine(message.Yellow());

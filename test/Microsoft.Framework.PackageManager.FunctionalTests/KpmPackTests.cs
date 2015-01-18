@@ -32,11 +32,11 @@ export SET DOTNET_APPBASE=""$DIR/approot/src/{0}""
 
 exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n", "\n");
 
-        public static IEnumerable<object[]> KreHomeDirs
+        public static IEnumerable<object[]> RuntimeHomeDirs
         {
             get
             {
-                foreach (var path in TestUtils.GetKreHomeDirs())
+                foreach (var path in TestUtils.GetRuntimeHomeDirs())
                 {
                     yield return new[] { path };
                 }
@@ -44,7 +44,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KpmPackWebApp_RootAsPublicFolder(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -138,7 +138,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KpmPackWebApp_SubfolderAsPublicFolder(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -227,7 +227,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KpmPackConsoleApp(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -288,7 +288,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void FoldersAsFilePatternsAutoGlob(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -388,7 +388,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void WildcardMatchingFacts(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -480,7 +480,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void CorrectlyExcludeFoldersStartingWithDots(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -570,7 +570,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void VerifyDefaultPackExcludePatterns(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -637,7 +637,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KpmPackWebApp_AppendToExistingWebConfig(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -712,7 +712,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KpmPackWebApp_UpdateExistingWebConfig(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -797,7 +797,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void GenerateBatchFilesAndBashScriptsWithoutPackedRuntime(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{
@@ -873,10 +873,10 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void GenerateBatchFilesAndBashScriptsWithPackedRuntime(DisposableDir kreHomeDir)
         {
-            // Each KRE home only contains one KRE package, which is the one we are currently testing against
+            // Each runtime home only contains one runtime package, which is the one we are currently testing against
             var kreRoot = Directory.EnumerateDirectories(Path.Combine(kreHomeDir, "packages"), "DOTNET-*").First();
             var kreName = new DirectoryInfo(kreRoot).Name;
 

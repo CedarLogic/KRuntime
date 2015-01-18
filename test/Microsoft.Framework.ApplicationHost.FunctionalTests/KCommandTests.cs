@@ -9,11 +9,11 @@ namespace Microsoft.Framework.ApplicationHost
 {
     public class KCommandTests
     {
-        public static IEnumerable<object[]> KreHomeDirs
+        public static IEnumerable<object[]> RuntimeHomeDirs
         {
             get
             {
-                foreach (var path in TestUtils.GetKreHomeDirs())
+                foreach (var path in TestUtils.GetRuntimeHomeDirs())
                 {
                     yield return new[] { path };
                 }
@@ -21,7 +21,7 @@ namespace Microsoft.Framework.ApplicationHost
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KCommandReturnsNonZeroExitCodeWhenNoArgumentWasGiven(DisposableDir kreHomeDir)
         {
             using (kreHomeDir)
@@ -39,7 +39,7 @@ namespace Microsoft.Framework.ApplicationHost
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KCommandReturnsZeroExitCodeWhenHelpOptionWasGiven(DisposableDir kreHomeDir)
         {
             using (kreHomeDir)
@@ -57,7 +57,7 @@ namespace Microsoft.Framework.ApplicationHost
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KCommandShowsVersionAndReturnsZeroExitCodeWhenVersionOptionWasGiven(DisposableDir kreHomeDir)
         {
             using (kreHomeDir)
@@ -71,12 +71,12 @@ namespace Microsoft.Framework.ApplicationHost
                     stdErr: out stdErr);
 
                 Assert.Equal(0, exitCode);
-                Assert.Contains(TestUtils.GetKreVersion(), stdOut);
+                Assert.Contains(TestUtils.GetRuntimeVersion(), stdOut);
             }
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KCommandShowsErrorWhenNoProjectJsonWasFound(DisposableDir kreHomeDir)
         {
             using (kreHomeDir)
@@ -97,7 +97,7 @@ namespace Microsoft.Framework.ApplicationHost
         }
 
         [Theory]
-        [MemberData("KreHomeDirs")]
+        [MemberData("RuntimeHomeDirs")]
         public void KCommandShowsErrorWhenGivenSubcommandWasNotFoundInProjectJson(DisposableDir kreHomeDir)
         {
             var projectStructure = @"{

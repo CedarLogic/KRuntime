@@ -60,7 +60,7 @@ namespace dotnet.hosting
             }
             else
             {
-                // KRE is arch sensitive so the ni is in the same folder as IL
+                // Runtime is arch sensitive so the ni is in the same folder as IL
                 nativePath = Path.Combine(directory, nativeImageName);
                 if (File.Exists(nativePath))
                 {
