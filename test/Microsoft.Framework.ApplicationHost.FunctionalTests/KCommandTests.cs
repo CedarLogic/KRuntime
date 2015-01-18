@@ -89,7 +89,7 @@ namespace Microsoft.Framework.ApplicationHost
                     arguments: string.Empty,
                     stdOut: out stdOut,
                     stdErr: out stdErr,
-                    environment: new Dictionary<string, string> { { "K_APPBASE", emptyFolder } });
+                    environment: new Dictionary<string, string> { { "DOTNET_APPBASE", emptyFolder } });
 
                 Assert.NotEqual(0, exitCode);
                 Assert.Contains("Unable to locate project.json", stdErr);
@@ -117,7 +117,7 @@ namespace Microsoft.Framework.ApplicationHost
                     arguments: string.Empty,
                     stdOut: out stdOut,
                     stdErr: out stdErr,
-                    environment: new Dictionary<string, string> { { "K_APPBASE", projectPath } });
+                    environment: new Dictionary<string, string> { { "DOTNET_APPBASE", projectPath } });
 
                 Assert.NotEqual(0, exitCode);
                 Assert.Contains("Unable to load application or execute command 'invalid'.", stdErr);

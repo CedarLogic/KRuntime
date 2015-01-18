@@ -150,12 +150,12 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
             try
             {
                 var tpacppFile = Path.Combine(ROOT, "src", "dotnet.core45", "tpa.cpp");
-                Environment.SetEnvironmentVariable("K_APPBASE", Path.Combine(ROOT, "src", "DependencyAnalyzer"));
+                Environment.SetEnvironmentVariable("DOTNET_APPBASE", Path.Combine(ROOT, "src", "DependencyAnalyzer"));
                 Exec("cmd", "/C k dpa tpa \"" + Path.Combine(CORECLR_TARGET_PATH, "Runtime", "x86") + "\" \"" + tpacppFile + "\"");
             }
             finally
             {
-                Environment.SetEnvironmentVariable("K_APPBASE", null);
+                Environment.SetEnvironmentVariable("DOTNET_APPBASE", null);
             }
         }
 
@@ -270,13 +270,13 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
             {
                 var kreName = Path.GetFileNameWithoutExtension(nupkgPath);
                 var krePath = Path.Combine(TEST_RESULTS, "KRE", kreName);
-                Environment.SetEnvironmentVariable("K_APPBASE", helloWorld);
+                Environment.SetEnvironmentVariable("DOTNET_APPBASE", helloWorld);
 
                 var kPath = Path.Combine(krePath, "bin", "k");
                 var kpmPath = Path.Combine(krePath, "bin", "kpm");
 
                 Log.Info("kreName = " + kreName);
-                Log.Info("K_APPBASE = " + helloWorld);
+                Log.Info("DOTNET_APPBASE = " + helloWorld);
 
                 Exec("cmd", "/C " + kPath + " run");
 
@@ -290,7 +290,7 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
             finally
             {
                 Environment.SetEnvironmentVariable("PATH", envPath);
-                Environment.SetEnvironmentVariable("K_APPBASE", null);
+                Environment.SetEnvironmentVariable("DOTNET_APPBASE", null);
             }
         };
         
@@ -627,12 +627,12 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
             
             try
             {
-                Environment.SetEnvironmentVariable("K_APPBASE", Path.Combine(ROOT, "src", "DependencyAnalyzer"));
+                Environment.SetEnvironmentVariable("DOTNET_APPBASE", Path.Combine(ROOT, "src", "DependencyAnalyzer"));
                 Exec("cmd", string.Format("/C k dpa runtime \"{0}\" \"{1}\"", DOTNET_CORECLR_x86_BIN, dependenciesFile));
             }
             finally
             {
-                Environment.SetEnvironmentVariable("K_APPBASE", null);
+                Environment.SetEnvironmentVariable("DOTNET_APPBASE", null);
             }
             var deps = new Dictionary<string, HashSet<string>>();
             var list = new HashSet<string>();
