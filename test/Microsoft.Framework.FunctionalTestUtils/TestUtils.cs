@@ -63,16 +63,16 @@ namespace Microsoft.Framework.FunctionalTestUtils
         public static DisposableDir GetRuntimeHomeDir(string flavor, string architecture)
         {
             var buildArtifactDir = GetBuildArtifactsFolder();
-            var kreNupkg = Directory.GetFiles(
+            var dotnetNupkg = Directory.GetFiles(
                 buildArtifactDir,
                 string.Format("dotnet-{0}-{1}.*.nupkg", flavor, architecture),
                 SearchOption.TopDirectoryOnly) .First();
-            var kreHomePath = CreateTempDir();
-            var kreName = Path.GetFileNameWithoutExtension(kreNupkg);
-            var kreRoot = Path.Combine(kreHomePath, "packages", kreName);
-            System.IO.Compression.ZipFile.ExtractToDirectory(kreNupkg, kreRoot);
-            File.Copy(kreNupkg, Path.Combine(kreRoot, kreName + ".nupkg"));
-            return kreHomePath;
+            var dotnetHomePath = CreateTempDir();
+            var dotnetName = Path.GetFileNameWithoutExtension(dotnetNupkg);
+            var dotnetRoot = Path.Combine(dotnetHomePath, "packages", dotnetName);
+            System.IO.Compression.ZipFile.ExtractToDirectory(dotnetNupkg, dotnetRoot);
+            File.Copy(dotnetNupkg, Path.Combine(dotnetRoot, dotnetName + ".nupkg"));
+            return dotnetHomePath;
         }
 
         public static IEnumerable<DisposableDir> GetRuntimeHomeDirs()
@@ -158,9 +158,9 @@ namespace Microsoft.Framework.FunctionalTestUtils
 
         public static string GetRuntimeVersion()
         {
-            var kreNupkg = Directory.EnumerateFiles(GetBuildArtifactsFolder(), "dotnet-*.nupkg").FirstOrDefault();
-            var kreName = Path.GetFileNameWithoutExtension(kreNupkg);
-            var segments = kreName.Split(new[] { '.' }, 2);
+            var dotnetNupkg = Directory.EnumerateFiles(GetBuildArtifactsFolder(), "dotnet-*.nupkg").FirstOrDefault();
+            var dotnetName = Path.GetFileNameWithoutExtension(dotnetNupkg);
+            var segments = dotnetName.Split(new[] { '.' }, 2);
             return segments[1];
         }
 

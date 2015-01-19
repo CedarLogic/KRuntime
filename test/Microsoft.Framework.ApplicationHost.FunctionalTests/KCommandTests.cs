@@ -22,13 +22,13 @@ namespace Microsoft.Framework.ApplicationHost
 
         [Theory]
         [MemberData("RuntimeHomeDirs")]
-        public void KCommandReturnsNonZeroExitCodeWhenNoArgumentWasGiven(DisposableDir kreHomeDir)
+        public void KCommandReturnsNonZeroExitCodeWhenNoArgumentWasGiven(DisposableDir dotnetHomeDir)
         {
-            using (kreHomeDir)
+            using (dotnetHomeDir)
             {
                 string stdOut, stdErr;
                 var exitCode = KCommandTestUtils.ExecKCommand(
-                    kreHomeDir,
+                    dotnetHomeDir,
                     subcommand: string.Empty,
                     arguments: string.Empty,
                     stdOut: out stdOut,
@@ -40,13 +40,13 @@ namespace Microsoft.Framework.ApplicationHost
 
         [Theory]
         [MemberData("RuntimeHomeDirs")]
-        public void KCommandReturnsZeroExitCodeWhenHelpOptionWasGiven(DisposableDir kreHomeDir)
+        public void KCommandReturnsZeroExitCodeWhenHelpOptionWasGiven(DisposableDir dotnetHomeDir)
         {
-            using (kreHomeDir)
+            using (dotnetHomeDir)
             {
                 string stdOut, stdErr;
                 var exitCode = KCommandTestUtils.ExecKCommand(
-                    kreHomeDir,
+                    dotnetHomeDir,
                     subcommand: string.Empty,
                     arguments: "--help",
                     stdOut: out stdOut,
@@ -58,13 +58,13 @@ namespace Microsoft.Framework.ApplicationHost
 
         [Theory]
         [MemberData("RuntimeHomeDirs")]
-        public void KCommandShowsVersionAndReturnsZeroExitCodeWhenVersionOptionWasGiven(DisposableDir kreHomeDir)
+        public void KCommandShowsVersionAndReturnsZeroExitCodeWhenVersionOptionWasGiven(DisposableDir dotnetHomeDir)
         {
-            using (kreHomeDir)
+            using (dotnetHomeDir)
             {
                 string stdOut, stdErr;
                 var exitCode = KCommandTestUtils.ExecKCommand(
-                    kreHomeDir,
+                    dotnetHomeDir,
                     subcommand: string.Empty,
                     arguments: "--version",
                     stdOut: out stdOut,
@@ -77,14 +77,14 @@ namespace Microsoft.Framework.ApplicationHost
 
         [Theory]
         [MemberData("RuntimeHomeDirs")]
-        public void KCommandShowsErrorWhenNoProjectJsonWasFound(DisposableDir kreHomeDir)
+        public void KCommandShowsErrorWhenNoProjectJsonWasFound(DisposableDir dotnetHomeDir)
         {
-            using (kreHomeDir)
+            using (dotnetHomeDir)
             using (var emptyFolder = TestUtils.CreateTempDir())
             {
                 string stdOut, stdErr;
                 var exitCode = KCommandTestUtils.ExecKCommand(
-                    kreHomeDir,
+                    dotnetHomeDir,
                     subcommand: "run",
                     arguments: string.Empty,
                     stdOut: out stdOut,
@@ -98,13 +98,13 @@ namespace Microsoft.Framework.ApplicationHost
 
         [Theory]
         [MemberData("RuntimeHomeDirs")]
-        public void KCommandShowsErrorWhenGivenSubcommandWasNotFoundInProjectJson(DisposableDir kreHomeDir)
+        public void KCommandShowsErrorWhenGivenSubcommandWasNotFoundInProjectJson(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
   'project.json': '{ }'
 }";
 
-            using (kreHomeDir)
+            using (dotnetHomeDir)
             using (var projectPath = TestUtils.CreateTempDir())
             {
 
@@ -112,7 +112,7 @@ namespace Microsoft.Framework.ApplicationHost
 
                 string stdOut, stdErr;
                 var exitCode = KCommandTestUtils.ExecKCommand(
-                    kreHomeDir,
+                    dotnetHomeDir,
                     subcommand: "invalid",
                     arguments: string.Empty,
                     stdOut: out stdOut,

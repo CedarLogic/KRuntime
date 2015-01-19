@@ -122,19 +122,19 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
         else
         {
             // TODO: remove KRE_ env var
-            var environmentKreTargetOS = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DOTNET_TARGET_OS")) ? Environment.GetEnvironmentVariable("KRE_TARGET_OS") : Environment.GetEnvironmentVariable("DOTNET_TARGET_OS");
-            var configKreTargetOS = "";
+            var environmentDotnetTargetOS = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DOTNET_TARGET_OS")) ? Environment.GetEnvironmentVariable("KRE_TARGET_OS") : Environment.GetEnvironmentVariable("DOTNET_TARGET_OS");
+            var configDotnetTargetOS = "";
         
             Exec(MSBUILD, dotnetProj + " /p:Configuration=" + Configuration2 + ";Platform=Win32;TargetFramework=aspnet50");
             Exec(MSBUILD, dotnetProj + " /p:Configuration=" + Configuration2 + ";Platform=x64;TargetFramework=aspnet50");
 
-            if (environmentKreTargetOS == "WIN7_PLUS_CORESYSTEM")
+            if (environmentDotnetTargetOS == "WIN7_PLUS_CORESYSTEM")
             {
-                configKreTargetOS = ";KreTargetOS=WIN7_PLUS_CORESYSTEM";
+                configDotnetTargetOS = ";DotnetTargetOS=WIN7_PLUS_CORESYSTEM";
             }
             
-            Exec(MSBUILD, dotnetProj + " /p:Configuration=" + Configuration2 + ";Platform=Win32;TargetFramework=aspnetcore50" + configKreTargetOS);
-            Exec(MSBUILD, dotnetProj + " /p:Configuration=" + Configuration2 + ";Platform=x64;TargetFramework=aspnetcore50" + configKreTargetOS);
+            Exec(MSBUILD, dotnetProj + " /p:Configuration=" + Configuration2 + ";Platform=Win32;TargetFramework=aspnetcore50" + configDotnetTargetOS);
+            Exec(MSBUILD, dotnetProj + " /p:Configuration=" + Configuration2 + ";Platform=x64;TargetFramework=aspnetcore50" + configDotnetTargetOS);
         }
     }
 
@@ -166,16 +166,16 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
         else
         {
             // TODO: remove KRE_ env var
-            var environmentKreTargetOS = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DOTNET_TARGET_OS")) ? Environment.GetEnvironmentVariable("KRE_TARGET_OS") : Environment.GetEnvironmentVariable("DOTNET_TARGET_OS");
-            var configKreTargetOS = "";
+            var environmentDotnetTargetOS = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DOTNET_TARGET_OS")) ? Environment.GetEnvironmentVariable("KRE_TARGET_OS") : Environment.GetEnvironmentVariable("DOTNET_TARGET_OS");
+            var configDotnetTargetOS = "";
         
-            if (environmentKreTargetOS == "WIN7_PLUS_CORESYSTEM")
+            if (environmentDotnetTargetOS == "WIN7_PLUS_CORESYSTEM")
             {
-                configKreTargetOS = ";KreTargetOS=WIN7_PLUS_CORESYSTEM";
+                configDotnetTargetOS = ";DotnetTargetOS=WIN7_PLUS_CORESYSTEM";
             }
             
-            Exec(MSBUILD, dotnetCore45Proj + " /p:Configuration=" + Configuration2 + ";Platform=Win32" + configKreTargetOS);
-            Exec(MSBUILD, dotnetCore45Proj + " /p:Configuration=" + Configuration2 + ";Platform=x64" + configKreTargetOS);
+            Exec(MSBUILD, dotnetCore45Proj + " /p:Configuration=" + Configuration2 + ";Platform=Win32" + configDotnetTargetOS);
+            Exec(MSBUILD, dotnetCore45Proj + " /p:Configuration=" + Configuration2 + ";Platform=x64" + configDotnetTargetOS);
         }
     }
 
@@ -246,20 +246,20 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
 
     for each='var nupkgPath in nupkgPaths' 
         @{
-            var kreName = Path.GetFileNameWithoutExtension(nupkgPath);
-            var krePath = Path.Combine(TEST_RESULTS, "dotnet", kreName);
+            var dotnetName = Path.GetFileNameWithoutExtension(nupkgPath);
+            var dotnetPath = Path.Combine(TEST_RESULTS, "dotnet", dotnetName);
 
             Log.Info("Unpacking " + nupkgPath);
-            if (Directory.Exists(krePath))
+            if (Directory.Exists(dotnetPath))
             {
-                Directory.Delete(krePath, recursive:true);
+                Directory.Delete(dotnetPath, recursive:true);
             }
 
-            Directory.CreateDirectory(krePath);
+            Directory.CreateDirectory(dotnetPath);
 
             System.IO.Compression.ZipFile.ExtractToDirectory(
                 nupkgPath,
-                krePath);
+                dotnetPath);
         }
 
     @{
@@ -267,16 +267,16 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
             var envPath = Environment.GetEnvironmentVariable("PATH");
             try
             {
-                var kreName = Path.GetFileNameWithoutExtension(nupkgPath);
-                var krePath = Path.Combine(TEST_RESULTS, "dotnet", kreName);
+                var dotnetName = Path.GetFileNameWithoutExtension(nupkgPath);
+                var dotnetPath = Path.Combine(TEST_RESULTS, "dotnet", dotnetName);
 
-                var dotnetPath = Path.Combine(krePath, "bin", "dotnet");
-                var kpmPath = Path.Combine(krePath, "bin", "kpm");
+                var dotnetExePath = Path.Combine(dotnetPath, "bin", "dotnet");
+                var kpmPath = Path.Combine(dotnetPath, "bin", "kpm");
 
-                Log.Info("kreName = " + kreName);
+                Log.Info("dotnetName = " + dotnetName);
                 Log.Info("DOTNET_APPBASE = " + helloWorld);
 
-                Exec(dotnetPath, helloWorld + " run");
+                Exec(dotnetExePath, helloWorld + " run");
 
                 var commands = new [] { "build" };
                 foreach(var cmd in commands)
@@ -293,18 +293,18 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
         };
         
         Action<string> crossGen = nupkgPath => {        
-            var kreName = Path.GetFileNameWithoutExtension(nupkgPath);
-            var krePath = Path.Combine(TEST_RESULTS, "dotnet", kreName);
+            var dotnetName = Path.GetFileNameWithoutExtension(nupkgPath);
+            var dotnetPath = Path.Combine(TEST_RESULTS, "dotnet", dotnetName);
 
-            var kPath = Path.Combine(krePath, "bin", "k");
+            var kPath = Path.Combine(dotnetPath, "bin", "k");
 
             var kTools = new[] {
-                Path.Combine(krePath, "bin", "lib", "Microsoft.Framework.Project"),
-                Path.Combine(krePath, "bin", "lib", "Microsoft.Framework.PackageManager"),
-                Path.Combine(krePath, "bin", "lib", "Microsoft.Framework.DesignTimeHost"),
+                Path.Combine(dotnetPath, "bin", "lib", "Microsoft.Framework.Project"),
+                Path.Combine(dotnetPath, "bin", "lib", "Microsoft.Framework.PackageManager"),
+                Path.Combine(dotnetPath, "bin", "lib", "Microsoft.Framework.DesignTimeHost"),
             };
 
-            Log.Info("kreName = " + kreName);
+            Log.Info("dotnetName = " + dotnetName);
             
             foreach(var kTool in kTools) {
                 Exec("cmd", string.Format("/C \"\"{0}\" crossgen --in \"{1}\"\"", kPath, kTool));
@@ -704,14 +704,14 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
 
 #dev-install
     @{
-        InstallDevDOTNET(DOTNET_MONO_BIN);
+        InstallDevDotnet(DOTNET_MONO_BIN);
         
         if (!IsMono)
         {
-            InstallDevDOTNET(DOTNET_CLR_x86_BIN);
-            InstallDevDOTNET(DOTNET_CLR_amd64_BIN);
-            InstallDevDOTNET(DOTNET_CORECLR_x86_BIN);
-            InstallDevDOTNET(DOTNET_CORECLR_amd64_BIN);
+            InstallDevDotnet(DOTNET_CLR_x86_BIN);
+            InstallDevDotnet(DOTNET_CLR_amd64_BIN);
+            InstallDevDotnet(DOTNET_CORECLR_x86_BIN);
+            InstallDevDotnet(DOTNET_CORECLR_amd64_BIN);
         }
     }
     
@@ -816,7 +816,7 @@ functions @{
         }
     }
 
-    string FindDOTNETFolder()
+    string FindDotnetFolder()
     {
         var profileDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
 
@@ -828,17 +828,17 @@ functions @{
         return Path.Combine(profileDirectory, ".kre");
     }
 
-    string FindDOTNETPackagesFolder() 
+    string FindDotnetPackagesFolder() 
     {
-        return Path.Combine(FindDOTNETFolder(), "packages");
+        return Path.Combine(FindDotnetFolder(), "packages");
     }
 
-    void InstallDevDOTNET(string binPath)
+    void InstallDevDotnet(string binPath)
     {
         var sourceDir = Path.GetDirectoryName(binPath);
-        var sourceDOTNET= Path.GetFileName(sourceDir);
-        var destinationDOTNET= sourceDOTNET+ ".1.0.0-dev";
-        var destinationDir = Path.Combine(FindDOTNETPackagesFolder(), destinationDOTNET);
+        var sourceDotnet= Path.GetFileName(sourceDir);
+        var destinationDotnet= sourceDotnet+ ".1.0.0-dev";
+        var destinationDir = Path.Combine(FindDotnetPackagesFolder(), destinationDotnet);
     
         if (Directory.Exists(destinationDir)) 
         {
@@ -847,7 +847,7 @@ functions @{
         }
     
         // Trim "dotnet-" part from alias to keep it short
-        var alias = sourceDOTNET.Substring(7) + "-dev";
+        var alias = sourceDotnet.Substring(7) + "-dev";
     
         var symlinkProgram = "cmd";
         var symlinkProgramArgs = "/C mklink /J {0} {1}";
@@ -863,7 +863,7 @@ functions @{
             kvmProgram = "bash";
             kvmProgramArgs =
                 "-c 'source " + 
-                Path.Combine(FindDOTNETFolder(), "kvm", "kvm.sh") + 
+                Path.Combine(FindDotnetFolder(), "kvm", "kvm.sh") + 
                 " && kvm alias {0} {1}'";
         }
     
@@ -873,7 +873,7 @@ functions @{
             
         kvmProgramArgs = String.Format(kvmProgramArgs,
             alias,
-            destinationDOTNET);
+            destinationDotnet);
     
         Exec(symlinkProgram, symlinkProgramArgs);
         Exec(kvmProgram, kvmProgramArgs);

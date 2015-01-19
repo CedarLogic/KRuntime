@@ -135,12 +135,12 @@ HMODULE LoadCoreClr()
 {
     errno_t errno = 0;
     bool fSuccess = true;
-    TCHAR szKreTrace[1] = {};
+    TCHAR szDotnetTrace[1] = {};
     // TODO: remove KRE_ env var
-    DWORD dwRet = GetEnvironmentVariableW(L"DOTNET_TRACE", szKreTrace, 1);
+    DWORD dwRet = GetEnvironmentVariableW(L"DOTNET_TRACE", szDotnetTrace, 1);
     if (dwRet == 0)
     {
-        dwRet = GetEnvironmentVariableW(L"KRE_TRACE", szKreTrace, 1);
+        dwRet = GetEnvironmentVariableW(L"KRE_TRACE", szDotnetTrace, 1);
     }
     bool m_fVerboseTrace = dwRet > 0;
     LPWSTR rgwzOSLoaderModuleNames[] = {
@@ -261,7 +261,7 @@ Finished:
 bool Win32KDisable()
 {
     bool fSuccess = true;
-    TCHAR szKreWin32KDisable[2] = {};
+    TCHAR szDotnetWin32KDisable[2] = {};
     LPWSTR lpwszModuleFileName = L"api-ms-win-core-processthreads-l1-1-1.dll";
     DWORD dwModuleFileName = 0;
     HMODULE hProcessThreadsModule = nullptr;
@@ -272,10 +272,10 @@ bool Win32KDisable()
     systemCallDisablePolicy.DisallowWin32kSystemCalls = 1;
 
     // TODO: remove KRE_ env var
-    DWORD dwRet = GetEnvironmentVariableW(L"DOTNET_WIN32K_DISABLE", szKreWin32KDisable, _countof(szKreWin32KDisable));
+    DWORD dwRet = GetEnvironmentVariableW(L"DOTNET_WIN32K_DISABLE", szDotnetWin32KDisable, _countof(szDotnetWin32KDisable));
     if (dwRet == 0)
     {
-        dwRet = GetEnvironmentVariableW(L"KRE_WIN32K_DISABLE", szKreWin32KDisable, _countof(szKreWin32KDisable));
+        dwRet = GetEnvironmentVariableW(L"KRE_WIN32K_DISABLE", szDotnetWin32KDisable, _countof(szDotnetWin32KDisable));
     }
     fSuccess = dwRet > 0;
     if (!fSuccess)
@@ -283,7 +283,7 @@ bool Win32KDisable()
         goto Finished;
     }
     
-    if (wcscmp(szKreWin32KDisable, L"1") != 0)
+    if (wcscmp(szDotnetWin32KDisable, L"1") != 0)
     {
         fSuccess = false;
         goto Finished;

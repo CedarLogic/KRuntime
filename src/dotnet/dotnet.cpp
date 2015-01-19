@@ -214,18 +214,18 @@ bool ExpandCommandLineArguments(int nArgc, LPWSTR* ppszArgv, int& nExpandedArgc,
 
 int CallFirmwareProcessMain(int argc, wchar_t* argv[])
 {
-    TCHAR szKreTrace[2];
+    TCHAR szDotnetTrace[2];
     // TODO: remove KRE_ env var
-    DWORD nEnvTraceSize = GetEnvironmentVariableW(L"DOTNET_TRACE", szKreTrace, 2);
+    DWORD nEnvTraceSize = GetEnvironmentVariableW(L"DOTNET_TRACE", szDotnetTrace, 2);
     if (nEnvTraceSize == 0)
     {
-        nEnvTraceSize = GetEnvironmentVariableW(L"KRE_TRACE", szKreTrace, 2);
+        nEnvTraceSize = GetEnvironmentVariableW(L"KRE_TRACE", szDotnetTrace, 2);
     }
     bool m_fVerboseTrace = (nEnvTraceSize == 1);
     if (m_fVerboseTrace)
     {
-        szKreTrace[1] = L'\0';
-        m_fVerboseTrace = (_wcsnicmp(szKreTrace, L"1", 1) == 0);
+        szDotnetTrace[1] = L'\0';
+        m_fVerboseTrace = (_wcsnicmp(szDotnetTrace, L"1", 1) == 0);
     }
 
     bool fSuccess = true;

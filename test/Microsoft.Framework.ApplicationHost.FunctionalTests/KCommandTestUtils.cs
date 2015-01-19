@@ -12,7 +12,7 @@ namespace Microsoft.Framework.ApplicationHost
     public static class KCommandTestUtils
     {
         public static int ExecKCommand(
-            string kreHomePath,
+            string dotnetHomePath,
             string subcommand,
             string arguments,
             out string stdOut,
@@ -20,17 +20,17 @@ namespace Microsoft.Framework.ApplicationHost
             IDictionary<string, string> environment = null,
             string workingDir = null)
         {
-            var kreRoot = Directory.EnumerateDirectories(Path.Combine(kreHomePath, "packages"), "dotnet-*").First();
+            var dotnetRoot = Directory.EnumerateDirectories(Path.Combine(dotnetHomePath, "packages"), "dotnet-*").First();
             string program, commandLine;
             if (PlatformHelper.IsMono)
             {
-                program = Path.Combine(kreRoot, "bin", "k");
+                program = Path.Combine(dotnetRoot, "bin", "k");
                 commandLine = string.Format("{0} {1}", subcommand, arguments);
             }
             else
             {
                 program = "cmd";
-                var kCmdPath = Path.Combine(kreRoot, "bin", "k.cmd");
+                var kCmdPath = Path.Combine(dotnetRoot, "bin", "k.cmd");
                 commandLine = string.Format("/C {0} {1} {2}", kCmdPath, subcommand, arguments);
             }
 

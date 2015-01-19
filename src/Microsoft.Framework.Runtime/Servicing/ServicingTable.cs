@@ -29,19 +29,19 @@ namespace Microsoft.Framework.Runtime.Servicing
             {
                 var index = new ServicingIndex();
                 // TODO: remove KRE_ env var
-                var kreServicing = Environment.GetEnvironmentVariable("DOTNET_SERVICING") ?? Environment.GetEnvironmentVariable("KRE_SERVICING");
-                if (string.IsNullOrEmpty(kreServicing))
+                var dotnetServicing = Environment.GetEnvironmentVariable("DOTNET_SERVICING") ?? Environment.GetEnvironmentVariable("KRE_SERVICING");
+                if (string.IsNullOrEmpty(dotnetServicing))
                 {
                     var servicingRoot = Environment.GetEnvironmentVariable("ProgramFiles") ??
                                         Environment.GetEnvironmentVariable("HOME");
 
-                    kreServicing = Path.Combine(
+                    dotnetServicing = Path.Combine(
                         servicingRoot,
                         "dotnet",
                         "Servicing");
                 }
 
-                index.Initialize(kreServicing);
+                index.Initialize(dotnetServicing);
                 return index;
             });
         }

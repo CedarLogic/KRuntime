@@ -11,20 +11,20 @@ namespace Microsoft.Framework.PackageManager
 {
     public static class KpmTestUtils
     {
-        public static int ExecKpm(string kreHomePath, string subcommand, string arguments,
+        public static int ExecKpm(string dotnetHomePath, string subcommand, string arguments,
             IDictionary<string, string> environment = null, string workingDir = null)
         {
-            var kreRoot = Directory.EnumerateDirectories(Path.Combine(kreHomePath, "packages"), "dotnet-*").First();
+            var dotnetRoot = Directory.EnumerateDirectories(Path.Combine(dotnetHomePath, "packages"), "dotnet-*").First();
             string program, commandLine;
             if (PlatformHelper.IsMono)
             {
-                program = Path.Combine(kreRoot, "bin", "kpm");
+                program = Path.Combine(dotnetRoot, "bin", "kpm");
                 commandLine = string.Format("{0} {1}", subcommand, arguments);
             }
             else
             {
                 program = "cmd";
-                var kpmCmdPath = Path.Combine(kreRoot, "bin", "kpm.cmd");
+                var kpmCmdPath = Path.Combine(dotnetRoot, "bin", "kpm.cmd");
                 commandLine = string.Format("/C {0} {1} {2}", kpmCmdPath, subcommand, arguments);
             }
 

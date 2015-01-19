@@ -11,13 +11,13 @@ namespace Microsoft.Framework.PackageManager
     {
         private readonly string _projectName;
         private readonly string _outputDirName;
-        private readonly string _krePath;
+        private readonly string _dotnetPath;
 
-        public KpmTestEnvironment(string krePath, string projectName = null, string outputDirName = null)
+        public KpmTestEnvironment(string dotnetPath, string projectName = null, string outputDirName = null)
         {
             _projectName = projectName ?? "ProjectName";
             _outputDirName = outputDirName ?? "OutputDirName";
-            _krePath = krePath;
+            _dotnetPath = dotnetPath;
             RootDir = TestUtils.CreateTempDir();
         }
 
@@ -59,9 +59,9 @@ namespace Microsoft.Framework.PackageManager
         {
             TestUtils.DeleteFolder(RootDir);
 
-            if (!string.IsNullOrEmpty(_krePath))
+            if (!string.IsNullOrEmpty(_dotnetPath))
             {
-                TestUtils.DeleteFolder(_krePath);
+                TestUtils.DeleteFolder(_dotnetPath);
             }
         }
     }

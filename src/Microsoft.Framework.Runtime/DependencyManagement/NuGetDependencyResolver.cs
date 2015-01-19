@@ -419,11 +419,11 @@ namespace Microsoft.Framework.Runtime
             // 4. %userprofile%\.kpm\packages
 
             // TODO: remove KRE_ env var
-            var krePackages = Environment.GetEnvironmentVariable("DOTNET_PACKAGES") ?? Environment.GetEnvironmentVariable("KRE_PACKAGES");
+            var dotnetPackages = Environment.GetEnvironmentVariable("DOTNET_PACKAGES") ?? Environment.GetEnvironmentVariable("KRE_PACKAGES");
 
-            if (!string.IsNullOrEmpty(krePackages))
+            if (!string.IsNullOrEmpty(dotnetPackages))
             {
-                return krePackages;
+                return dotnetPackages;
             }
 
             GlobalSettings settings;
