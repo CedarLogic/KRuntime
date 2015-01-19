@@ -14,7 +14,7 @@ namespace Microsoft.Framework.PackageManager
         public static int ExecKpm(string kreHomePath, string subcommand, string arguments,
             IDictionary<string, string> environment = null, string workingDir = null)
         {
-            var kreRoot = Directory.EnumerateDirectories(Path.Combine(kreHomePath, "packages"), "DOTNET-*").First();
+            var kreRoot = Directory.EnumerateDirectories(Path.Combine(kreHomePath, "packages"), "dotnet-*").First();
             string program, commandLine;
             if (PlatformHelper.IsMono)
             {

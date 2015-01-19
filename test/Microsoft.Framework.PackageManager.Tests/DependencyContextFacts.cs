@@ -16,7 +16,7 @@ namespace Microsoft.Framework.PackageManager.Packing.Tests
         [InlineData("dotnet-clr.1.0.0", null)]
         [InlineData("dotnet-coreclr-x86", null)]
         [InlineData("dotnet-mono", null)]
-        [InlineData("DOTNET", null)]
+        [InlineData("dotnet", null)]
         public void GetCorrectFrameworkNameForRuntimes(string runtimeName, string frameworkIdentifier)
         {
             var frameworkName = DependencyContext.GetFrameworkNameForRuntime(runtimeName);

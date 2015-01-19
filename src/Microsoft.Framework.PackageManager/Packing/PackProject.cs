@@ -356,7 +356,7 @@ namespace Microsoft.Framework.PackageManager.Packing
             {
                 { "kpm-package-path", relativePackagesPath},
                 { "bootstrapper-version", GetBootstrapperVersion(root)},
-                { "dotnet-package-path", relativePackagesPath},
+                { "packages-path", relativePackagesPath},
                 { "dotnet-version", GetRuntimeVersion(defaultRuntime)},
                 { "dotnet-clr", GetRuntimeFlavor(defaultRuntime)},
                 { "dotnet-app-base", _applicationBase},
@@ -408,9 +408,9 @@ namespace Microsoft.Framework.PackageManager.Packing
             return package == null ? string.Empty : package.Library.Version.ToString();
         }
 
-        // Expected runtime name format: DOTNET-{FLAVOR}-{ARCHITECTURE}.{VERSION}
+        // Expected runtime name format: dotnet-{FLAVOR}-{ARCHITECTURE}.{VERSION}
         // Sample input: dotnet-coreclr-x86.1.0.0.0
-        // Sample output: CoreCLR
+        // Sample output: coreclr
         private static string GetRuntimeFlavor(PackRuntime runtime)
         {
             if (runtime == null)
@@ -423,7 +423,7 @@ namespace Microsoft.Framework.PackageManager.Packing
             return segments[1];
         }
 
-        // Expected runtime name format: DOTNET-{FLAVOR}-{ARCHITECTURE}.{VERSION}
+        // Expected runtime name format: dotnet-{FLAVOR}-{ARCHITECTURE}.{VERSION}
         // Sample input: dotnet-coreclr-x86.1.0.0.0
         // Sample output: 1.0.0.0
         private static string GetRuntimeVersion(PackRuntime runtime)

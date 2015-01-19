@@ -234,7 +234,7 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
   
 #test-package
     var helloWorld = '${Path.Combine(SAMPLES_DIR, "HelloWorld")}'
-    var aspnetCore50Tools = '${Path.Combine(TEST_RESULTS, "DOTNET", "tools", "aspnetcore50")}'
+    var aspnetCore50Tools = '${Path.Combine(TEST_RESULTS, "dotnet", "tools", "aspnetcore50")}'
 
     var nupkgPaths = '${new string[] 
     {
@@ -247,7 +247,7 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
     for each='var nupkgPath in nupkgPaths' 
         @{
             var kreName = Path.GetFileNameWithoutExtension(nupkgPath);
-            var krePath = Path.Combine(TEST_RESULTS, "DOTNET", kreName);
+            var krePath = Path.Combine(TEST_RESULTS, "dotnet", kreName);
 
             Log.Info("Unpacking " + nupkgPath);
             if (Directory.Exists(krePath))
@@ -268,7 +268,7 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
             try
             {
                 var kreName = Path.GetFileNameWithoutExtension(nupkgPath);
-                var krePath = Path.Combine(TEST_RESULTS, "DOTNET", kreName);
+                var krePath = Path.Combine(TEST_RESULTS, "dotnet", kreName);
 
                 var dotnetPath = Path.Combine(krePath, "bin", "dotnet");
                 var kpmPath = Path.Combine(krePath, "bin", "kpm");
@@ -294,7 +294,7 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
         
         Action<string> crossGen = nupkgPath => {        
             var kreName = Path.GetFileNameWithoutExtension(nupkgPath);
-            var krePath = Path.Combine(TEST_RESULTS, "DOTNET", kreName);
+            var krePath = Path.Combine(TEST_RESULTS, "dotnet", kreName);
 
             var kPath = Path.Combine(krePath, "bin", "k");
 
@@ -322,15 +322,15 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
 
         var nupkgPath = Files.Include(Path.Combine(BUILD_DIR2, "dotnet-clr-x86.*.nupkg")).Single();
         Log.Info("Unpacking " + nupkgPath);
-        if (Directory.Exists(Path.Combine(PACKAGES_DIR, "DOTNET"))) {
-            Directory.Delete(Path.Combine(PACKAGES_DIR, "DOTNET"), recursive:true);
+        if (Directory.Exists(Path.Combine(PACKAGES_DIR, "dotnet"))) {
+            Directory.Delete(Path.Combine(PACKAGES_DIR, "dotnet"), recursive:true);
         }
 
-        Directory.CreateDirectory(Path.Combine(PACKAGES_DIR, "DOTNET"));
+        Directory.CreateDirectory(Path.Combine(PACKAGES_DIR, "dotnet"));
 
         System.IO.Compression.ZipFile.ExtractToDirectory(
             Path.Combine(nupkgPath),
-            Path.Combine(PACKAGES_DIR, "DOTNET"));
+            Path.Combine(PACKAGES_DIR, "dotnet"));
 
         // Delete the build dir
         Directory.Delete(BUILD_DIR2, recursive: true); 
@@ -338,8 +338,8 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
         var envPath = Environment.GetEnvironmentVariable("PATH");
         try
         {
-            Log.Info("Adding PATH " + Path.Combine(PACKAGES_DIR, "DOTNET", "bin"));
-            Environment.SetEnvironmentVariable("PATH", Path.Combine(PACKAGES_DIR, "DOTNET", "bin") + ";" + envPath);
+            Log.Info("Adding PATH " + Path.Combine(PACKAGES_DIR, "dotnet", "bin"));
+            Environment.SetEnvironmentVariable("PATH", Path.Combine(PACKAGES_DIR, "dotnet", "bin") + ";" + envPath);
             Environment.SetEnvironmentVariable("NEW_RUNTIME", "1"); 
             Log.Info("Rebuilding target default");
 
@@ -717,8 +717,8 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
     
 #install-runtime target='install'
     var matchVersion=''
-    for each='var pattern in new[]{ "CLR-x86", "CoreCLR-x86", "CLR-amd64", "CoreCLR-amd64" }'
-        for each='var runtime in Files.Include(Path.Combine(BUILD_DIR2, "DOTNET-" + pattern + ".*.nupkg"))'
+    for each='var pattern in new[]{ "clr-x86", "coreclr-x86", "clr-amd64", "coreclr-amd64" }'
+        for each='var runtime in Files.Include(Path.Combine(BUILD_DIR2, "dotnet-" + pattern + ".*.nupkg"))'
             exec program='cmd' commandline='/C kvm install ${runtime}' if='!IsMono'
             var parts='${Path.GetFileNameWithoutExtension(runtime).Split(".".ToArray(), 2)}'
             set matchVersion='${parts[1]}' if='matchVersion == ""'
@@ -846,8 +846,8 @@ functions @{
             return;
         }
     
-        // Trim "DOTNET-" part from alias to keep it short
-        var alias = sourceDOTNET.Substring(4) + "-dev";
+        // Trim "dotnet-" part from alias to keep it short
+        var alias = sourceDOTNET.Substring(7) + "-dev";
     
         var symlinkProgram = "cmd";
         var symlinkProgramArgs = "/C mklink /J {0} {1}";
