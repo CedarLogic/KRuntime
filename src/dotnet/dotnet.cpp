@@ -289,6 +289,11 @@ int CallFirmwareProcessMain(int argc, wchar_t* argv[])
         }
     }
 
+    if (!data.applicationBase)
+    {
+        data.applicationBase = szCurrentDirectory;
+    }
+
     m_hHostModule = ::LoadLibraryExW(pwzHostModuleName, NULL, LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
     if (!m_hHostModule)
     {
