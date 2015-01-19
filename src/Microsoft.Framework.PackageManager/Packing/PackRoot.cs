@@ -104,15 +104,15 @@ namespace Microsoft.Framework.PackageManager.Packing
 
             foreach (var commandName in _project.Commands.Keys)
             {
-                var dotnetFolder = string.Empty;
+                var runtimeFolder = string.Empty;
                 if (Runtimes.Any())
                 {
-                    dotnetFolder = string.Format(@"%~dp0{0}\packages\{1}\bin\", AppRootName, Runtimes.First().Name);
+                    runtimeFolder = string.Format(@"%~dp0{0}\packages\{1}\bin\", AppRootName, Runtimes.First().Name);
                 }
 
                 File.WriteAllText(
                     Path.Combine(OutputPath, commandName + ".cmd"),
-                    string.Format(template, dotnetFolder, relativeAppBase, commandName));
+                    string.Format(template, runtimeFolder, relativeAppBase, commandName));
             }
         }
 
@@ -145,16 +145,16 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""";
 
             foreach (var commandName in _project.Commands.Keys)
             {
-                var dotnetFolder = string.Empty;
+                var runtimeFolder = string.Empty;
                 if (Runtimes.Any())
                 {
-                    dotnetFolder = string.Format(@"$DIR/{0}/packages/{1}/bin/",
+                    runtimeFolder = string.Format(@"$DIR/{0}/packages/{1}/bin/",
                         AppRootName, Runtimes.First().Name);
                 }
 
                 var scriptPath = Path.Combine(OutputPath, commandName);
                 File.WriteAllText(scriptPath,
-                    string.Format(template, relativeAppBase, dotnetFolder, commandName).Replace("\r\n", "\n"));
+                    string.Format(template, relativeAppBase, runtimeFolder, commandName).Replace("\r\n", "\n"));
                 if (PlatformHelper.IsMono)
                 {
                     MarkExecutable(scriptPath);

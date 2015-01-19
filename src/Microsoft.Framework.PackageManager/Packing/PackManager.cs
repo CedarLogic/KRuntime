@@ -272,21 +272,21 @@ namespace Microsoft.Framework.PackageManager.Packing
             return !anyUnresolvedDependency;
         }
 
-        bool TryAddRuntime(PackRoot root, FrameworkName frameworkName, string dotnetPath)
+        bool TryAddRuntime(PackRoot root, FrameworkName frameworkName, string runtimePath)
         {
-            if (!Directory.Exists(dotnetPath))
+            if (!Directory.Exists(runtimePath))
             {
                 return false;
             }
 
-            var dotnetName = Path.GetFileName(Path.GetDirectoryName(Path.Combine(dotnetPath, ".")));
-            var dotnetNupkgPath = Path.Combine(dotnetPath, dotnetName + ".nupkg");
-            if (!File.Exists(dotnetNupkgPath))
+            var runtimeName = Path.GetFileName(Path.GetDirectoryName(Path.Combine(runtimePath, ".")));
+            var runtimeNupkgPath = Path.Combine(runtimePath, runtimeName + ".nupkg");
+            if (!File.Exists(runtimeNupkgPath))
             {
                 return false;
             }
 
-            root.Runtimes.Add(new PackRuntime(root, frameworkName, dotnetNupkgPath));
+            root.Runtimes.Add(new PackRuntime(root, frameworkName, runtimeNupkgPath));
             return true;
         }
 

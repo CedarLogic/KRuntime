@@ -246,20 +246,20 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
 
     for each='var nupkgPath in nupkgPaths' 
         @{
-            var dotnetName = Path.GetFileNameWithoutExtension(nupkgPath);
-            var dotnetPath = Path.Combine(TEST_RESULTS, "dotnet", dotnetName);
+            var runtimeName = Path.GetFileNameWithoutExtension(nupkgPath);
+            var runtimePath = Path.Combine(TEST_RESULTS, "dotnet", runtimeName);
 
             Log.Info("Unpacking " + nupkgPath);
-            if (Directory.Exists(dotnetPath))
+            if (Directory.Exists(runtimePath))
             {
-                Directory.Delete(dotnetPath, recursive:true);
+                Directory.Delete(runtimePath, recursive:true);
             }
 
-            Directory.CreateDirectory(dotnetPath);
+            Directory.CreateDirectory(runtimePath);
 
             System.IO.Compression.ZipFile.ExtractToDirectory(
                 nupkgPath,
-                dotnetPath);
+                runtimePath);
         }
 
     @{
@@ -267,16 +267,16 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
             var envPath = Environment.GetEnvironmentVariable("PATH");
             try
             {
-                var dotnetName = Path.GetFileNameWithoutExtension(nupkgPath);
-                var dotnetPath = Path.Combine(TEST_RESULTS, "dotnet", dotnetName);
+                var runtimeName = Path.GetFileNameWithoutExtension(nupkgPath);
+                var runtimePath = Path.Combine(TEST_RESULTS, "dotnet", runtimeName);
 
-                var dotnetExePath = Path.Combine(dotnetPath, "bin", "dotnet");
-                var kpmPath = Path.Combine(dotnetPath, "bin", "kpm");
+                var dotnetPath = Path.Combine(runtimePath, "bin", "dotnet");
+                var kpmPath = Path.Combine(runtimePath, "bin", "kpm");
 
-                Log.Info("dotnetName = " + dotnetName);
+                Log.Info("runtimeName = " + runtimeName);
                 Log.Info("DOTNET_APPBASE = " + helloWorld);
 
-                Exec(dotnetExePath, helloWorld + " run");
+                Exec(dotnetPath, helloWorld + " run");
 
                 var commands = new [] { "build" };
                 foreach(var cmd in commands)
@@ -293,18 +293,18 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
         };
         
         Action<string> crossGen = nupkgPath => {        
-            var dotnetName = Path.GetFileNameWithoutExtension(nupkgPath);
-            var dotnetPath = Path.Combine(TEST_RESULTS, "dotnet", dotnetName);
+            var runtimeName = Path.GetFileNameWithoutExtension(nupkgPath);
+            var runtimePath = Path.Combine(TEST_RESULTS, "dotnet", runtimeName);
 
-            var kPath = Path.Combine(dotnetPath, "bin", "k");
+            var kPath = Path.Combine(runtimePath, "bin", "k");
 
             var kTools = new[] {
-                Path.Combine(dotnetPath, "bin", "lib", "Microsoft.Framework.Project"),
-                Path.Combine(dotnetPath, "bin", "lib", "Microsoft.Framework.PackageManager"),
-                Path.Combine(dotnetPath, "bin", "lib", "Microsoft.Framework.DesignTimeHost"),
+                Path.Combine(runtimePath, "bin", "lib", "Microsoft.Framework.Project"),
+                Path.Combine(runtimePath, "bin", "lib", "Microsoft.Framework.PackageManager"),
+                Path.Combine(runtimePath, "bin", "lib", "Microsoft.Framework.DesignTimeHost"),
             };
 
-            Log.Info("dotnetName = " + dotnetName);
+            Log.Info("runtimeName = " + runtimeName);
             
             foreach(var kTool in kTools) {
                 Exec("cmd", string.Format("/C \"\"{0}\" crossgen --in \"{1}\"\"", kPath, kTool));
@@ -704,14 +704,14 @@ var RC_FILES = '${FindAllFiles("Resource.rc", "dotnet", "dotnet.net45", "dotnet.
 
 #dev-install
     @{
-        InstallDevDotnet(DOTNET_MONO_BIN);
+        InstallDevRuntime(DOTNET_MONO_BIN);
         
         if (!IsMono)
         {
-            InstallDevDotnet(DOTNET_CLR_x86_BIN);
-            InstallDevDotnet(DOTNET_CLR_amd64_BIN);
-            InstallDevDotnet(DOTNET_CORECLR_x86_BIN);
-            InstallDevDotnet(DOTNET_CORECLR_amd64_BIN);
+            InstallDevRuntime(DOTNET_CLR_x86_BIN);
+            InstallDevRuntime(DOTNET_CLR_amd64_BIN);
+            InstallDevRuntime(DOTNET_CORECLR_x86_BIN);
+            InstallDevRuntime(DOTNET_CORECLR_amd64_BIN);
         }
     }
     
@@ -816,7 +816,7 @@ functions @{
         }
     }
 
-    string FindDotnetFolder()
+    string FindRuntimeFolder()
     {
         var profileDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
 
@@ -828,17 +828,17 @@ functions @{
         return Path.Combine(profileDirectory, ".kre");
     }
 
-    string FindDotnetPackagesFolder() 
+    string FindRuntimePackagesFolder() 
     {
-        return Path.Combine(FindDotnetFolder(), "packages");
+        return Path.Combine(FindRuntimeFolder(), "packages");
     }
 
-    void InstallDevDotnet(string binPath)
+    void InstallDevRuntime(string binPath)
     {
         var sourceDir = Path.GetDirectoryName(binPath);
-        var sourceDotnet= Path.GetFileName(sourceDir);
-        var destinationDotnet= sourceDotnet+ ".1.0.0-dev";
-        var destinationDir = Path.Combine(FindDotnetPackagesFolder(), destinationDotnet);
+        var sourceRuntime= Path.GetFileName(sourceDir);
+        var destinationRuntime= sourceRuntime+ ".1.0.0-dev";
+        var destinationDir = Path.Combine(FindRuntimePackagesFolder(), destinationRuntime);
     
         if (Directory.Exists(destinationDir)) 
         {
@@ -847,7 +847,7 @@ functions @{
         }
     
         // Trim "dotnet-" part from alias to keep it short
-        var alias = sourceDotnet.Substring(7) + "-dev";
+        var alias = sourceRuntime.Substring(7) + "-dev";
     
         var symlinkProgram = "cmd";
         var symlinkProgramArgs = "/C mklink /J {0} {1}";
@@ -863,7 +863,7 @@ functions @{
             kvmProgram = "bash";
             kvmProgramArgs =
                 "-c 'source " + 
-                Path.Combine(FindDotnetFolder(), "kvm", "kvm.sh") + 
+                Path.Combine(FindRuntimeFolder(), "kvm", "kvm.sh") + 
                 " && kvm alias {0} {1}'";
         }
     
@@ -873,7 +873,7 @@ functions @{
             
         kvmProgramArgs = String.Format(kvmProgramArgs,
             alias,
-            destinationDotnet);
+            destinationRuntime);
     
         Exec(symlinkProgram, symlinkProgramArgs);
         Exec(kvmProgram, kvmProgramArgs);

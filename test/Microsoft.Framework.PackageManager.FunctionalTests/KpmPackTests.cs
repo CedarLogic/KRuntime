@@ -32,11 +32,11 @@ export SET DOTNET_APPBASE=""$DIR/approot/src/{0}""
 
 exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n", "\n");
 
-        public static IEnumerable<object[]> RuntimeHomeDirs
+        public static IEnumerable<object[]> DotnetHomeDirs
         {
             get
             {
-                foreach (var path in TestUtils.GetRuntimeHomeDirs())
+                foreach (var path in TestUtils.GetDotnetHomeDirs())
                 {
                     yield return new[] { path };
                 }
@@ -44,7 +44,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KpmPackWebApp_RootAsPublicFolder(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -138,7 +138,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KpmPackWebApp_SubfolderAsPublicFolder(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -227,7 +227,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KpmPackConsoleApp(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -288,7 +288,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void FoldersAsFilePatternsAutoGlob(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -388,7 +388,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void WildcardMatchingFacts(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -480,7 +480,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void CorrectlyExcludeFoldersStartingWithDots(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -570,7 +570,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void VerifyDefaultPackExcludePatterns(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -637,7 +637,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KpmPackWebApp_AppendToExistingWebConfig(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -712,7 +712,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KpmPackWebApp_UpdateExistingWebConfig(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -797,7 +797,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void GenerateBatchFilesAndBashScriptsWithoutPackedRuntime(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
@@ -873,12 +873,12 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void GenerateBatchFilesAndBashScriptsWithPackedRuntime(DisposableDir dotnetHomeDir)
         {
             // Each runtime home only contains one runtime package, which is the one we are currently testing against
-            var dotnetRoot = Directory.EnumerateDirectories(Path.Combine(dotnetHomeDir, "packages"), "dotnet-*").First();
-            var dotnetName = new DirectoryInfo(dotnetRoot).Name;
+            var runtimeRoot = Directory.EnumerateDirectories(Path.Combine(dotnetHomeDir, "packages"), "dotnet-*").First();
+            var runtimeName = new DirectoryInfo(runtimeRoot).Name;
 
             var projectStructure = @"{
   '.': ['project.json'],
@@ -894,10 +894,10 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
       }
     },
     'packages': {
-      'DOTNET_PACKAGE_NAME': {}
+      'RUNTIME_PACKAGE_NAME': {}
     }
   }
-}".Replace("PROJECT_NAME", _projectName).Replace("DOTNET_PACKAGE_NAME", dotnetName);
+}".Replace("PROJECT_NAME", _projectName).Replace("RUNTIME_PACKAGE_NAME", runtimeName);
 
             using (var testEnv = new KpmTestEnvironment(dotnetHomeDir, _projectName, _outputDirName))
             {
@@ -925,22 +925,22 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
                     dotnetHomeDir,
                     subcommand: "pack",
                     arguments: string.Format("--out {0} --runtime {1}",
-                        testEnv.PackOutputDirPath, dotnetName),
+                        testEnv.PackOutputDirPath, runtimeName),
                     environment: environment,
                     workingDir: testEnv.ProjectPath);
                 Assert.Equal(0, exitCode);
 
-                var dotnetNupkgSHA = TestUtils.ComputeSHA(Path.Combine(dotnetRoot, dotnetName + ".nupkg"));
-                var runtimeSubDir = DirTree.CreateFromDirectory(dotnetRoot)
-                    .WithFileContents(dotnetName + ".nupkg.sha512", dotnetNupkgSHA)
+                var runtimeNupkgSHA = TestUtils.ComputeSHA(Path.Combine(runtimeRoot, runtimeName + ".nupkg"));
+                var runtimeSubDir = DirTree.CreateFromDirectory(runtimeRoot)
+                    .WithFileContents(runtimeName + ".nupkg.sha512", runtimeNupkgSHA)
                     .RemoveFile("[Content_Types].xml")
                     .RemoveFile(Path.Combine("_rels", ".rels"))
                     .RemoveFile(Path.Combine("bin", "lib", "Microsoft.Framework.PackageManager",
                         "bin", "profile", "startup.prof"))
                     .RemoveSubDir("package");
 
-                var batchFileBinPath = string.Format(@"%~dp0approot\packages\{0}\bin\", dotnetName);
-                var bashScriptBinPath = string.Format("$DIR/approot/packages/{0}/bin/", dotnetName);
+                var batchFileBinPath = string.Format(@"%~dp0approot\packages\{0}\bin\", runtimeName);
+                var bashScriptBinPath = string.Format("$DIR/approot/packages/{0}/bin/", runtimeName);
 
                 var expectedOutputDir = DirTree.CreateFromJson(expectedOutputStructure)
                     .WithFileContents(Path.Combine("approot", "src", testEnv.ProjectName, "project.json"), @"{
@@ -963,7 +963,7 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
                         BashScriptTemplate, testEnv.ProjectName, bashScriptBinPath, "run")
                     .WithFileContents("kestrel",
                         BashScriptTemplate, testEnv.ProjectName, bashScriptBinPath, "kestrel")
-                    .WithSubDir(Path.Combine("approot", "packages", dotnetName), runtimeSubDir);
+                    .WithSubDir(Path.Combine("approot", "packages", runtimeName), runtimeSubDir);
 
                 Assert.True(expectedOutputDir.MatchDirectoryOnDisk(testEnv.PackOutputDirPath,
                     compareFileContents: true));

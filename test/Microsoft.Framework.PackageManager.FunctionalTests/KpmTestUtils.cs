@@ -14,17 +14,17 @@ namespace Microsoft.Framework.PackageManager
         public static int ExecKpm(string dotnetHomePath, string subcommand, string arguments,
             IDictionary<string, string> environment = null, string workingDir = null)
         {
-            var dotnetRoot = Directory.EnumerateDirectories(Path.Combine(dotnetHomePath, "packages"), "dotnet-*").First();
+            var runtimeRoot = Directory.EnumerateDirectories(Path.Combine(dotnetHomePath, "packages"), "dotnet-*").First();
             string program, commandLine;
             if (PlatformHelper.IsMono)
             {
-                program = Path.Combine(dotnetRoot, "bin", "kpm");
+                program = Path.Combine(runtimeRoot, "bin", "kpm");
                 commandLine = string.Format("{0} {1}", subcommand, arguments);
             }
             else
             {
                 program = "cmd";
-                var kpmCmdPath = Path.Combine(dotnetRoot, "bin", "kpm.cmd");
+                var kpmCmdPath = Path.Combine(runtimeRoot, "bin", "kpm.cmd");
                 commandLine = string.Format("/C {0} {1} {2}", kpmCmdPath, subcommand, arguments);
             }
 

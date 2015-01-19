@@ -9,11 +9,11 @@ namespace Microsoft.Framework.ApplicationHost
 {
     public class KCommandTests
     {
-        public static IEnumerable<object[]> RuntimeHomeDirs
+        public static IEnumerable<object[]> DotnetHomeDirs
         {
             get
             {
-                foreach (var path in TestUtils.GetRuntimeHomeDirs())
+                foreach (var path in TestUtils.GetDotnetHomeDirs())
                 {
                     yield return new[] { path };
                 }
@@ -21,7 +21,7 @@ namespace Microsoft.Framework.ApplicationHost
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KCommandReturnsNonZeroExitCodeWhenNoArgumentWasGiven(DisposableDir dotnetHomeDir)
         {
             using (dotnetHomeDir)
@@ -39,7 +39,7 @@ namespace Microsoft.Framework.ApplicationHost
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KCommandReturnsZeroExitCodeWhenHelpOptionWasGiven(DisposableDir dotnetHomeDir)
         {
             using (dotnetHomeDir)
@@ -57,7 +57,7 @@ namespace Microsoft.Framework.ApplicationHost
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KCommandShowsVersionAndReturnsZeroExitCodeWhenVersionOptionWasGiven(DisposableDir dotnetHomeDir)
         {
             using (dotnetHomeDir)
@@ -76,7 +76,7 @@ namespace Microsoft.Framework.ApplicationHost
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KCommandShowsErrorWhenNoProjectJsonWasFound(DisposableDir dotnetHomeDir)
         {
             using (dotnetHomeDir)
@@ -97,7 +97,7 @@ namespace Microsoft.Framework.ApplicationHost
         }
 
         [Theory]
-        [MemberData("RuntimeHomeDirs")]
+        [MemberData("DotnetHomeDirs")]
         public void KCommandShowsErrorWhenGivenSubcommandWasNotFoundInProjectJson(DisposableDir dotnetHomeDir)
         {
             var projectStructure = @"{
