@@ -126,10 +126,10 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
   <appSettings>
     <add key=""kpm-package-path"" value=""..\approot\packages"" />
     <add key=""bootstrapper-version"" value="""" />
-    <add key=""kre-package-path"" value=""..\approot\packages"" />
-    <add key=""kre-version"" value="""" />
-    <add key=""kre-clr"" value="""" />
-    <add key=""kre-app-base"" value=""..\approot\src\{0}"" />
+    <add key=""dotnet-package-path"" value=""..\approot\packages"" />
+    <add key=""dotnet-version"" value="""" />
+    <add key=""dotnet-clr"" value="""" />
+    <add key=""dotnet-app-base"" value=""..\approot\src\{0}"" />
   </appSettings>
 </configuration>", testEnv.ProjectName);
                 Assert.True(expectedOutputDir.MatchDirectoryOnDisk(testEnv.PackOutputDirPath,
@@ -215,10 +215,10 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
   <appSettings>
     <add key=""kpm-package-path"" value=""..\approot\packages"" />
     <add key=""bootstrapper-version"" value="""" />
-    <add key=""kre-package-path"" value=""..\approot\packages"" />
-    <add key=""kre-version"" value="""" />
-    <add key=""kre-clr"" value="""" />
-    <add key=""kre-app-base"" value=""..\approot\src\{0}"" />
+    <add key=""dotnet-package-path"" value=""..\approot\packages"" />
+    <add key=""dotnet-version"" value="""" />
+    <add key=""dotnet-clr"" value="""" />
+    <add key=""dotnet-app-base"" value=""..\approot\src\{0}"" />
   </appSettings>
 </configuration>", testEnv.ProjectName);
                 Assert.True(expectedOutputDir.MatchDirectoryOnDisk(testEnv.PackOutputDirPath,
@@ -700,10 +700,10 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
   <appSettings>
     <add key=""kpm-package-path"" value=""..\approot\packages"" />
     <add key=""bootstrapper-version"" value="""" />
-    <add key=""kre-package-path"" value=""..\approot\packages"" />
-    <add key=""kre-version"" value="""" />
-    <add key=""kre-clr"" value="""" />
-    <add key=""kre-app-base"" value=""..\approot\src\{0}"" />
+    <add key=""dotnet-package-path"" value=""..\approot\packages"" />
+    <add key=""dotnet-version"" value="""" />
+    <add key=""dotnet-clr"" value="""" />
+    <add key=""dotnet-app-base"" value=""..\approot\src\{0}"" />
   </appSettings>
 </configuration>", testEnv.ProjectName);
                 Assert.True(expectedOutputDir.MatchDirectoryOnDisk(testEnv.PackOutputDirPath,
@@ -738,10 +738,10 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
     <add key=""non-related-key"" value=""OLD_VALUE"" />
     <add key=""kpm-package-path"" value=""OLD_VALUE"" />
     <add key=""bootstrapper-version"" value=""OLD_VALUE"" />
-    <add key=""kre-package-path"" value=""OLD_VALUE"" />
-    <add key=""kre-version"" value=""OLD_VALUE"" />
-    <add key=""kre-clr"" value=""OLD_VALUE"" />
-    <add key=""kre-app-base"" value=""OLD_VALUE"" />
+    <add key=""dotnet-package-path"" value=""OLD_VALUE"" />
+    <add key=""dotnet-version"" value=""OLD_VALUE"" />
+    <add key=""dotnet-clr"" value=""OLD_VALUE"" />
+    <add key=""dotnet-app-base"" value=""OLD_VALUE"" />
   </appSettings>
 </configuration>";
 
@@ -785,10 +785,10 @@ exec ""{1}dotnet"" Microsoft.Framework.ApplicationHost {2} ""$@""".Replace("\r\n
     <add key=""non-related-key"" value=""OLD_VALUE"" />
     <add key=""kpm-package-path"" value=""..\approot\packages"" />
     <add key=""bootstrapper-version"" value="""" />
-    <add key=""kre-package-path"" value=""..\approot\packages"" />
-    <add key=""kre-version"" value="""" />
-    <add key=""kre-clr"" value="""" />
-    <add key=""kre-app-base"" value=""..\approot\src\{0}"" />
+    <add key=""dotnet-package-path"" value=""..\approot\packages"" />
+    <add key=""dotnet-version"" value="""" />
+    <add key=""dotnet-clr"" value="""" />
+    <add key=""dotnet-app-base"" value=""..\approot\src\{0}"" />
   </appSettings>
 </configuration>", testEnv.ProjectName);
                 Assert.True(expectedOutputDir.MatchDirectoryOnDisk(testEnv.PackOutputDirPath,

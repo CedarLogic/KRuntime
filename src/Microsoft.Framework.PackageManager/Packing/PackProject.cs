@@ -356,10 +356,10 @@ namespace Microsoft.Framework.PackageManager.Packing
             {
                 { "kpm-package-path", relativePackagesPath},
                 { "bootstrapper-version", GetBootstrapperVersion(root)},
-                { "kre-package-path", relativePackagesPath},
-                { "kre-version", GetRuntimeVersion(defaultRuntime)},
-                { "kre-clr", GetRuntimeFlavor(defaultRuntime)},
-                { "kre-app-base", _applicationBase},
+                { "dotnet-package-path", relativePackagesPath},
+                { "dotnet-version", GetRuntimeVersion(defaultRuntime)},
+                { "dotnet-clr", GetRuntimeFlavor(defaultRuntime)},
+                { "dotnet-app-base", _applicationBase},
             };
 
             foreach (var pair in keyValuePairs)
